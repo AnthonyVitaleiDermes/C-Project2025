@@ -16,7 +16,7 @@ public:
         return moneyAmt;
     }
 
-    void display() const {
+    void displayMoney() const {
         std::cout << "$" << moneyAmt << std::endl;
     }
 };
