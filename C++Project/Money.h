@@ -1,4 +1,6 @@
 #include <iostream>
+#ifndef MONEY_H
+#define MONEY_H
 
 class Money
 {
@@ -21,5 +23,5 @@ public:
     }
 };
 
-
+#endif
 
