@@ -24,12 +24,21 @@
     <ClCompile Include="shop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StoreItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Money.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="shop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShopTemplate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
