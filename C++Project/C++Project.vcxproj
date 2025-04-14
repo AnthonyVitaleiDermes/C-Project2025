@@ -133,6 +133,7 @@
     <ClCompile Include="shop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h" />
     <ClInclude Include="StoreItem.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="shop.h" />
