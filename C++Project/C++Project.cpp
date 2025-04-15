@@ -2,6 +2,7 @@
 #include <string>
 #include "shop.h" 
 #include "Money.h" 
+#include "Game.h"
 
 
 
