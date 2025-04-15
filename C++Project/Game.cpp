@@ -11,21 +11,21 @@ RPSGame::RPSGame() : playerMoney(0.0) {
 std::string RPSGame::getLanasChoice() {
 	int choice = std::rand() % 3;
 	switch (choice) {
-		case0: return "ROCK";
-		case1: return "PAPER";
-		case2: return "SCISSORZ";
+		case0: return "rock";
+		case1: return "paper";
+		case2: return "scizzors";
 	}
-	return "rock";
+	return "paper";
 }
 //makes sure it determines who wins by seing what beats what the,rock,paper,scizzors beats 
 int RPSGame::determineTheWinner(std::string playerChoice, std::string LanasChoice) {
 	if (playerChoice == LanasChoice) return 0;
 	if ((playerChoice == "rock" && LanasChoice == "scizzors") ||
-		(playerChoice == "paper" &&LanasChoice == "rock") ||
+		(playerChoice == "paper" && LanasChoice == "rock") ||
 		(playerChoice == "scizzors" && LanasChoice == "paper")) {
-			return 1;
+			return 1; //player wins
 	}
-	return -1;
+	return -1; //player loses
 }
 std::string RPSGame::playRound(std::string playersChoice) {
 	std::string LanasChoice = getLanasChoice();
