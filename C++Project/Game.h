@@ -13,8 +13,8 @@ public:
 	float getEarnings() const;
 private:
 	Money playerMoney;
-	std::string getComputersChoice();
-	int determineTheWinner(std::string playerchoice, std::string computersChoice);
+	std::string getLanasChoice();
+	int determineTheWinner(std::string playerchoice, std::string LanasChoice);
 	
 };
 #endif  //RPS_GAME_H
