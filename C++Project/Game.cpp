@@ -11,9 +11,9 @@ RPSGame::RPSGame() : playerMoney(0.0) {
 std::string RPSGame::getLanasChoice() {
 	int choice = std::rand() % 3;
 	switch (choice) {
-		case0: return "rock";
-		case1: return "paper";
-		case2: return "scizzors";
+		case0: return "ROCK";
+		case1: return "PAPER";
+		case2: return "SCISSORZ";
 	}
 	return "rock";
 }
@@ -41,7 +41,7 @@ std::string RPSGame::playRound(std::string playersChoice) {
 		playerMoney.setAmount(playerMoney.getAmount() - 10.0); // player loses Money
 		return "You lose! Lana chose " + LanasChoice + ". You lost $10";
 	} else{
-		return "it's a draw! Noth chose" + LanasChoice + ". No money was won or lost.";
+		return "it's a draw! Lana chose" + LanasChoice + ". No money was won or lost.";
 	}
 }
 //displays you current earnings earned by playing rock,paper,scizzors
