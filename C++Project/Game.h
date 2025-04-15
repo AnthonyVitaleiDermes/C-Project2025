@@ -9,12 +9,12 @@ class RPSGame {
 public:
 	RPSGame();
 	std::string playRound(std::string playerchoice);
-	void EraningsDisplayed() const;
+	void EarningsDisplayed() const;
 	float getEarnings() const;
 private:
 	Money playerMoney;
-	std::string getComputerChoice();
-	int determineTheWinner(std::string playerchoice, std::string computerChoice);
+	std::string getComputersChoice();
+	int determineTheWinner(std::string playerchoice, std::string computersChoice);
 	
 };
 #endif  //RPS_GAME_H
