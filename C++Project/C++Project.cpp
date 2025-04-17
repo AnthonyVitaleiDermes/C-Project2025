@@ -26,7 +26,7 @@ int main() // yur 5"3 asain girl abg >>
     std::cin >> action;
 
 
-    Shop shopCity;
+    Shop<int, float> shopCity;
     RPSGame game;
 
     switch (action)
