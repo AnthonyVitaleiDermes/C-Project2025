@@ -15,7 +15,8 @@ int main() // yur 5"3 asain girl abg >>
 
     std::cout << "Hello, " << userName << "! Welcome!" << std::endl;
 
-    Money userMoney(100.0f); 
+    Money userMoney;
+    userMoney.setAmount(100.00f);
  
     int action;
 
@@ -31,10 +32,11 @@ int main() // yur 5"3 asain girl abg >>
     switch (action)
     {
     case 1:
-        Shop shopCity;
         shopCity.displayShopMenu(userMoney);
+        shopCity.interact(userMoney);
+
        
-        //Shop Method //yo lowkey the way shop is spelled looks weird idk how to explain it
+      
         break;
     case 2: {
         RPSGame game;
