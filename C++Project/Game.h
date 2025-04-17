@@ -1,22 +1,19 @@
-#ifndef RPS_GAME_H
-#define RPS_GAME_H 
+#ifndef GAME_H
+#define GAME_H
 
-#include <iostream>
 #include <string>
 #include "Money.h"
-// Rock,Paper,Sizzors
+
 class RPSGame {
-public:
-	RPSGame();
-	std::string playRound(std::string playerchoice);
-	void EarningsDisplayed() const;
-	float getEarnings() const;
 private:
-	Money playerMoney;
-	std::string getLanasChoice();
-	int determineTheWinner(std::string playerchoice, std::string LanasChoice);
-	
+    Money playerMoney;
+public:
+    RPSGame();
+    std::string getLanasChoice();
+    int determineTheWinner(const std::string& playerChoice, const std::string& lanasChoice);
+    std::string playRound(const std::string& playersChoice);
+    void EarningsDisplayed() const;
+    float getEarnings() const;
 };
-#endif  //RPS_GAME_H
 
-
+#endif
