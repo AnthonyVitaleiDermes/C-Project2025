@@ -90,7 +90,7 @@ private:
             shirts->addChild(new ShopNode("Dress Shirts", new StoreItem<IDType, PriceType>(102, "Dress Shirt", 40.0, 8)));
             ShopNode* pants = new ShopNode("Pants");
             pants->addChild(new ShopNode("Jeans", new StoreItem<IDType, PriceType>(103, "Jeans", 50.0, 12)));
-            pants->addChild(new ShopNode("Chinos", new StoreItem<IDType, PriceType>(104, "Chinos", 45.0, 9)));
+            pants->addChild(new ShopNode("Jorts", new StoreItem<IDType, PriceType>(104, "Jorts", 45.0, 9)));
             clothes->addChild(shirts);
             clothes->addChild(pants);
 			//food section
