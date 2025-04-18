@@ -129,12 +129,14 @@
   <ItemGroup>
     <ClCompile Include="C++Project.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="StoreItem.cpp" />
     <ClCompile Include="Money.cpp" />
     <ClCompile Include="shop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="StoreItem.h" />
     <ClInclude Include="Money.h" />
     <ClInclude Include="shop.h" />

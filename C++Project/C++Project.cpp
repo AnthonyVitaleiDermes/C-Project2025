@@ -1,12 +1,11 @@
 #include <iostream>
 #include <string>
-#include "shop.h" 
-#include "Money.h" 
+#include "shop.h"
+#include "Money.h"
 #include "Game.h"
+#include "Inventory.h" 
 
-
-
-int main() // yur 5"3 asain girl abg >> 
+int main() // yur 5"3 asain girl abg >>
 {
     std::string userName;
 
@@ -17,16 +16,18 @@ int main() // yur 5"3 asain girl abg >>
 
     Money userMoney;
     userMoney.setAmount(100.00f);
- 
+
+    Inventory<int, float> userInventory;
+
     Shop<int, float> shopCity;
     RPSGame game;
-    while (true) {
 
+    while (true) {
         int action;
 
         std::cout << "Welcome To the online store and games\n";
-        std::cout << "Press 1 for the Shop and 2 for the Minigame to earn money!\n";
-    
+        std::cout << "Press 1 for the Shop, 2 for the Minigame, or 3 to view your inventory!\n";
+
         std::cin >> action;
         if (action == 0) {
             std::cout << "Thanks for playing! Bye Bye\n";
@@ -37,15 +38,14 @@ int main() // yur 5"3 asain girl abg >>
         {
         case 1:
             shopCity.displayShopMenu(userMoney);
-            shopCity.interact(userMoney);
+            shopCity.interact(userMoney, userInventory);
             break;
         case 2: {
-            RPSGame game;
             std::string choice;
-            std::cout << "Welcome To The Minigame! Earn or lose money by playing Rock-Paper-Scizzors.\n";
+            std::cout << "Welcome To The Minigame! Earn or lose money by playing Rock-Paper-Scissors.\n";
 
             while (true) {
-                std::cout << "Enter rock,paper, or scizzors (or 'quit' to exit):";
+                std::cout << "Enter rock, paper, or scissors (or 'quit' to exit): ";
                 std::cin >> choice;
 
                 if (choice == "quit") break;
@@ -53,19 +53,31 @@ int main() // yur 5"3 asain girl abg >>
                 std::cout << game.playRound(choice) << std::endl;
                 game.EarningsDisplayed();
             }
+
             std::cout << "Final money Amount: ";
-            userMoney.setAmount(game.getEarnings()); // update's the user's money balance
+            userMoney.setAmount(game.getEarnings());  // update the user's money balance
             userMoney.displayMoney();
-            //Minigame Method
+            break;
+        }
+        case 3: {
+            char showInventory;
+            std::cout << "Would you like to see your inventory? (Y/N): ";
+            std::cin >> showInventory;
+
+            if (showInventory == 'Y' || showInventory == 'y') {
+                
+                userInventory.displayInventory();
+            }
+            else {
+                std::cout << "Inventory viewing skipped.\n";
+            }
             break;
         }
         default:
             std::cout << "Invalid Option\n";
             break;
         }
-
     }
 
     return 0;
 }
-
