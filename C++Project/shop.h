@@ -3,26 +3,30 @@
 
 #include <iostream>
 #include <string>
+#include <stack>
 #include "Money.h"
 #include "StoreItem.h"
-#include "Inventory.h"  
 
+// template class for the shop
 template <typename IDType, typename PriceType>
 class Shop {
 private:
+    // private class for shop node which represents each category or item
     class ShopNode {
     public:
         std::string name;
-        ShopNode* firstChild;
-        ShopNode* nextSibling;
-        StoreItem<IDType, PriceType>* item;
+		ShopNode* firstChild; // pointer to the first child node
+		ShopNode* nextSibling; // pointer to the next sibling node
+		StoreItem<IDType, PriceType>* item; // pointer to the item (if any)
 
+        // constructor for shop node
         ShopNode(const std::string& n, StoreItem<IDType, PriceType>* item = nullptr)
             : name(n), firstChild(nullptr), nextSibling(nullptr), item(item) {
         }
 
+        // function to add a child node to the current node
         void addChild(ShopNode* child) {
-            if (!firstChild) {
+			if (!firstChild) { // if no children exist
                 firstChild = child;
             }
             else {
@@ -30,10 +34,11 @@ private:
                 while (current->nextSibling) {
                     current = current->nextSibling;
                 }
-                current->nextSibling = child;
+                current->nextSibling = child; 
             }
         }
 
+        // function to display the node and its children
         void display(int depth = 0) {
             for (int i = 0; i < depth; ++i)
                 std::cout << "  ";
@@ -46,30 +51,39 @@ private:
             if (nextSibling) nextSibling->display(depth);
         }
 
-        bool purchaseItem(Money& userMoney, Inventory<IDType, PriceType>& userInventory) {
+        // function to handle purchase logic
+        bool purchaseItem(Money& userMoney) {
             if (!item) {
-                std::cout << "This item is not available for purchase.\n";
+                std::cout << "this item is not available for purchase.\n";
                 return false;
             }
             if (userMoney.getAmount() >= item->getPrice()) {
                 userMoney.setAmount(userMoney.getAmount() - item->getPrice());
-                userInventory.addItem(item, 1); // Add one item to inventory
-                std::cout << "Successfully purchased " << item->getName() << " for $" << item->getPrice() << "!\n";
+                std::cout << "successfully purchased " << item->getName()
+                    << " for $" << item->getPrice() << "!\n";
                 return true;
             }
             else {
-                std::cout << "Insufficient funds to purchase " << item->getName() << ".\n";
+                std::cout << "insufficient funds to purchase " << item->getName() << ".\n";
                 return false;
             }
         }
     };
 
+    // private class to manage the shop tree structure
     class ShopTree {
     public:
         ShopNode* root;
-        ShopTree() { root = new ShopNode("Shop"); }
 
+        // constructor initializing root node as the shop
+        ShopTree() {
+            root = new ShopNode("Shop");
+        }
+
+        // function to build the shop tree with categories and items
         void buildTree() {
+
+            //clothes section
             ShopNode* clothes = new ShopNode("Clothes");
             ShopNode* shirts = new ShopNode("Shirts");
             shirts->addChild(new ShopNode("T-Shirts", new StoreItem<IDType, PriceType>(101, "T-Shirt", 25.0, 10)));
@@ -79,7 +93,7 @@ private:
             pants->addChild(new ShopNode("Chinos", new StoreItem<IDType, PriceType>(104, "Chinos", 45.0, 9)));
             clothes->addChild(shirts);
             clothes->addChild(pants);
-
+			//food section
             ShopNode* food = new ShopNode("Food");
             ShopNode* fruits = new ShopNode("Fruits");
             fruits->addChild(new ShopNode("Orange", new StoreItem<IDType, PriceType>(201, "Orange", 2.5, 50)));
@@ -89,7 +103,7 @@ private:
             berries->addChild(new ShopNode("Blueberry", new StoreItem<IDType, PriceType>(204, "Blueberry", 4.5, 20)));
             food->addChild(fruits);
             food->addChild(berries);
-
+			//games section
             ShopNode* games = new ShopNode("Games");
             ShopNode* console = new ShopNode("Console");
             ShopNode* xbox = new ShopNode("Xbox");
@@ -110,58 +124,85 @@ private:
             root->addChild(clothes);
             root->addChild(food);
             root->addChild(games);
-            
         }
 
+        // function to display the shop menu with user's balance
         void displayShopMenu(Money& userMoney) {
-            std::cout << "Welcome to the shop! Your balance is $" << userMoney.getAmount() << "\n";
+            std::cout << "welcome to the shop! your balance is $" << userMoney.getAmount() << "\n";
             root->display();
         }
     };
 
+    // object representing the shop tree and purchase history stack
     ShopTree shopTree;
+    std::stack<StoreItem<IDType, PriceType>*> purchaseHistory;
 
 public:
+    // constructor to build the shop tree when the shop is created
     Shop() {
         shopTree.buildTree();
     }
 
+    // function to display the shop menu
     void displayShopMenu(Money& userMoney) {
         shopTree.displayShopMenu(userMoney);
     }
 
-    void interact(Money& userMoney, Inventory<IDType, PriceType>& userInventory) {
-      
-
-        std::cout << "What would you like to buy? ";
+    // function to interact with the user and process a purchase
+    StoreItem<IDType, PriceType>* interact(Money& userMoney) {
         std::cin.ignore();
         std::string selection;
+        std::cout << "what would you like to buy? once purchased, it won't be available again: ";
         std::getline(std::cin, selection);
 
-        std::cout << "You have chosen: " << selection << std::endl;
-        std::cout << "Would you like to purchase this item? (Y/N): ";
-
+        std::cout << "you have chosen: " << selection << std::endl;
+        std::cout << "would you like to purchase this item? (Y/N): ";
         char response;
         std::cin >> response;
 
         if (response == 'Y' || response == 'y') {
             ShopNode* itemNode = findItem(shopTree.root, selection);
             if (itemNode && itemNode->item) {
-                if (itemNode->purchaseItem(userMoney, userInventory)) {
-                    if (removeItem(nullptr, shopTree.root, selection)) {
-                        std::cout << selection << " has been removed from the shop.\n";
-                    }
+                if (itemNode->purchaseItem(userMoney)) {
+                    StoreItem<IDType, PriceType>* purchasedItem = itemNode->item;
+                    itemNode->item = nullptr;
+                    purchaseHistory.push(purchasedItem);
+
+                    // remove the item from the tree
+                    removeItemNode(shopTree.root, selection);
+
+                    return purchasedItem;
                 }
             }
             else {
-                std::cout << "Item not found or unavailable for purchase.\n";
+                std::cout << "item not found or unavailable for purchase.\n";
             }
         }
         else {
-            std::cout << "Purchase canceled.\n";
+            std::cout << "purchase canceled.\n";
+        }
+        return nullptr;
+    }
+
+
+    // function to display the user's purchase history
+    void displayPurchaseHistory() {
+        std::stack<StoreItem<IDType, PriceType>*> temp = purchaseHistory;
+        if (temp.empty()) {
+            std::cout << "no items purchased yet.\n";
+            return;
+        }
+
+        std::cout << "purchase history:\n";
+        while (!temp.empty()) {
+            StoreItem<IDType, PriceType>* item = temp.top();
+            temp.pop();
+            std::cout << "- " << item->getName() << " ($" << item->getPrice() << ")\n";
         }
     }
 
+private:
+    // function to find an item in the shop tree
     ShopNode* findItem(ShopNode* node, const std::string& itemName) {
         if (!node) return nullptr;
         if (node->name == itemName && node->item) return node;
@@ -170,29 +211,31 @@ public:
         return findItem(node->nextSibling, itemName);
     }
 
-    bool removeItem(ShopNode* parent, ShopNode* current, const std::string& itemName) {
-        if (!current) return false;
-        if (current->firstChild && current->firstChild->name == itemName && current->firstChild->item) {
-            ShopNode* toDelete = current->firstChild;
-            current->firstChild = toDelete->nextSibling;
-            delete toDelete->item;
-            delete toDelete;
-            return true;
-        }
-        ShopNode* prev = current->firstChild;
-        ShopNode* curr = prev ? prev->nextSibling : nullptr;
-        while (curr) {
-            if (curr->name == itemName && curr->item) {
-                prev->nextSibling = curr->nextSibling;
-                delete curr->item;
-                delete curr;
-                return true;
+    // function to remove an item node from the shop tree
+    void removeItemNode(ShopNode* parent, const std::string& itemName) {
+        if (!parent) return;
+
+        ShopNode* prev = nullptr;
+        ShopNode* current = parent->firstChild;
+
+        while (current) {
+            if (current->name == itemName) {
+                if (prev) {
+                    prev->nextSibling = current->nextSibling;
+                }
+                else {
+                    parent->firstChild = current->nextSibling;
+                }
+                delete current;
+                return;
             }
-            prev = curr;
-            curr = curr->nextSibling;
+            prev = current;
+            current = current->nextSibling;
         }
-        if (removeItem(current, current->firstChild, itemName)) return true;
-        return removeItem(current, current->nextSibling, itemName);
+
+        // recurse through children
+        removeItemNode(parent->firstChild, itemName);
+        removeItemNode(parent->nextSibling, itemName);
     }
 };
 

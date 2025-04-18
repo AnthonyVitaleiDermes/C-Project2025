@@ -11,13 +11,12 @@ int main() // yur 5"3 asain girl abg >>
 
     std::cout << "What is your name? ";
     std::getline(std::cin, userName);
-
     std::cout << "Hello, " << userName << "! Welcome!" << std::endl;
 
     Money userMoney;
-    userMoney.setAmount(100.00f);
+    userMoney.setAmount(100.00f);  // Start with $100
 
-    Inventory<int, float> userInventory;
+
 
     Shop<int, float> shopCity;
     RPSGame game;
@@ -25,24 +24,25 @@ int main() // yur 5"3 asain girl abg >>
     while (true) {
         int action;
 
-        std::cout << "Welcome To the online store and games\n";
-        std::cout << "Press 1 for the Shop, 2 for the Minigame, or 3 to view your inventory!\n";
-
+        std::cout << "\nWelcome to the online store and games!\n";
+        std::cout << "Press 1 for the Shop, 2 for the Minigame, 3 to view your purchase history, or 0 to exit: ";
         std::cin >> action;
+
         if (action == 0) {
             std::cout << "Thanks for playing! Bye Bye\n";
             break;
         }
 
-        switch (action)
-        {
+        switch (action) {
         case 1:
             shopCity.displayShopMenu(userMoney);
-            shopCity.interact(userMoney, userInventory);
+            shopCity.interact(userMoney);
+           
             break;
+
         case 2: {
             std::string choice;
-            std::cout << "Welcome To The Minigame! Earn or lose money by playing Rock-Paper-Scissors.\n";
+            std::cout << "Welcome to the Minigame! Earn or lose money by playing Rock-Paper-Scissors.\n";
 
             while (true) {
                 std::cout << "Enter rock, paper, or scissors (or 'quit' to exit): ";
@@ -54,27 +54,20 @@ int main() // yur 5"3 asain girl abg >>
                 game.EarningsDisplayed();
             }
 
-            std::cout << "Final money Amount: ";
-            userMoney.setAmount(game.getEarnings());  // update the user's money balance
+            std::cout << "Final money amount: ";
+            userMoney.setAmount(game.getEarnings()); // update the user's money balance
             userMoney.displayMoney();
             break;
         }
-        case 3: {
-            char showInventory;
-            std::cout << "Would you like to see your inventory? (Y/N): ";
-            std::cin >> showInventory;
 
-            if (showInventory == 'Y' || showInventory == 'y') {
-                
-                userInventory.displayInventory();
-            }
-            else {
-                std::cout << "Inventory viewing skipped.\n";
-            }
-            break;
+        case 3: {
+              shopCity.displayPurchaseHistory(); // this is a stack
+              break;
         }
+
+
         default:
-            std::cout << "Invalid Option\n";
+            std::cout << "Invalid option. Please choose 1, 2 or 0 to exit.\n"; 
             break;
         }
     }
