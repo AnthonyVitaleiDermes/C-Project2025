@@ -132,14 +132,14 @@ public:
 
         std::cout << "What would you like to buy? ";
         std::string selection;
-        std::getline(std::cin >> std::ws, selection); // Clears leading spaces before input
+        std::getline(std::cin >>  selection); 
 
         std::cout << "You have chosen: " << selection << std::endl;
         std::cout << "Would you like to purchase this item? (Y/N) ";
 
         char response;
         std::cin >> response;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clears buffer
+     
 
         if (response == 'Y' || response == 'y') {
             ShopNode* itemNode = findItem(shopTree.root, selection);
