@@ -12,7 +12,7 @@ std::string RPSGame::getLanasChoice() {
     switch (choice) {
     case 0: return "rock";
     case 1: return "paper";
-    case 2: return "scizzors";
+    case 2: return "scissors";
     }
     return "paper";
 }
@@ -20,9 +20,9 @@ std::string RPSGame::getLanasChoice() {
 int RPSGame::determineTheWinner(const std::string& playerChoice, const std::string& lanasChoice) {
     if (playerChoice == lanasChoice)
         return 0;
-    if ((playerChoice == "rock" && lanasChoice == "scizzors") ||
+    if ((playerChoice == "rock" && lanasChoice == "scissors") ||
         (playerChoice == "paper" && lanasChoice == "rock") ||
-        (playerChoice == "scizzors" && lanasChoice == "paper"))
+        (playerChoice == "scissors" && lanasChoice == "paper"))
         return 1;
     return -1;
 }

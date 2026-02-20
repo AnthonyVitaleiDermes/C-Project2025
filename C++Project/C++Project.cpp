@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "Inventory.h" 
 
-int main() // yur 5"3 asain girl abg >>
+int main() 
 {
     std::string userName;
 
